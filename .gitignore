@@ -11,9 +11,9 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # PadoGrid
-.addonenv.sh
+/.addonenv.sh
 initenv.sh
-setenv.sh
+/setenv.sh
 apps
 bundles
 clusters
@@ -30,4 +30,4 @@ lib
 desktop
 setenv.sh0
 build
-pado_*
+hazelcast-operator

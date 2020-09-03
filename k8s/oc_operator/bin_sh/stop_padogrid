@@ -31,5 +31,5 @@ oc delete all -l app=padogrid
 if [ "$ALL" == "true" ]; then
    echo "Deleting PadoGrid pvc, pv, and local-storage..."
    oc delete pvc padogrid-pvc
-   oc delete -f $APP_DIR/padogrid/pv-hostPath.yaml
+   oc delete -f $APP_DIR/padogrid/pv-hostPath.yaml > /dev/null 2>&1
 fi
