@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+. $SCRIPT_DIR/.addonenv.sh
+
+EXECUTABLE="`basename $0`"
+
+if [ "$HELP" == "true" ]; then
+cat <<EOF
+
+NAME
+   $EXECUTABLE - Start the Hazelcast OpenShift operator and a Hazelcast cluster
+
+SYNOPSIS
+   $EXECUTABLE [-oss] [-?]
+
+DESCRIPTION
+   Starts the Hazelcast OpenShift operator and a Hazelcast cluster.
+
+OPTIONS
+   -oss
+      If specified launches Hazelcast OSS, otherwise, Hazelcast Enterprise which requires a license key.
+
+DEFAULT:
+   ./$EXECUTABLE
+
+SEE ALSO
+   etc/hazelcast, etc/hazelcast-enterprise, etc/padogrid
+
+EOF
+exit
+fi
+
+if [ "$OSS" == "true" ]; then
+   pushd $APP_DIR/hazelcast-operator/hazelcast-operator > /dev/null
+   oc apply -f operator-rbac.yaml
+   oc apply -f hazelcast-rbac.yaml
+   oc apply -f hazelcastcluster.crd.yaml
+   oc apply -f operator.yaml
+   oc apply -f hazelcast.yaml
+   popd > /dev/null
+else
+   pushd $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator > /dev/null
+   oc apply -f operator-rbac.yaml
+   oc apply -f hazelcast-rbac.yaml
+   oc apply -f hazelcastcluster.crd.yaml
+   oc apply -f operator-rhel.yaml
+   oc apply -f secret.yaml
+   oc apply -f hazelcast.yaml
+   popd > /dev/null
+fi

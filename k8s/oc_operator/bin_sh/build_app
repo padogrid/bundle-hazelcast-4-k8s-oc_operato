@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+. $SCRIPT_DIR/.addonenv.sh
+
+EXECUTABLE="`basename $0`"
+
+if [ "$HELP" == "true" ]; then
+cat <<EOF
+
+NAME
+   $EXECUTABLE - Build a Hazelcast OpenShift Operator environment
+
+SYNOPSIS
+   $EXECUTABLE [-?]
+
+DESCRIPTION
+   Builds a Hazelcast OpenShift Operator environment by downloading all the necessary files and making adjustments
+   to the downloaded files. 
+
+DEFAULT:
+   ./$EXECUTABLE
+
+EOF
+exit
+fi
+
+#
+# Clone Hazelcast operator
+#
+pushd $APP_DIR > /dev/null
+if [ ! -d hazelcast-operator ]; then
+   git clone https://github.com/hazelcast/hazelcast-operator.git
+fi
+popd > /dev/null
+
+#
+# Copy the included hazelcast.yaml
+#
+if [ ! -d $APP_DIR/hazelcast-operator/hazelcast-operator/original ]; then
+   mkdir $APP_DIR/hazelcast-operator/hazelcast-operator/original
+fi
+if [ ! -d $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator/original ]; then
+   mkdir $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator/original
+fi
+echo ""
+echo "Updating hazelcast.yaml..."
+cp $APP_DIR/etc/hazelcast-operator/hazelcast.yaml $APP_DIR/hazelcast-operator/hazelcast-operator/
+cp $APP_DIR/etc/hazelcast-enterprise-operator/hazelcast.yaml $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator
+
+#
+# Set license key
+#
+echo "Setting Hazelcat license key..."
+pushd $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator > /dev/null
+if [ ! -f original/secret.yaml ]; then
+   cp secret.yaml original/secret.yaml
+fi
+# Set license key
+IMDG_LICENSE_KEY_BASE64=$(echo -n "$IMDG_LICENSE_KEY" | base64)
+sed "s/<base64-hz-license-key>/$IMDG_LICENSE_KEY_BASE64/" "original/secret.yaml" > "secret.yaml"
+popd > /dev/null
+
+#
+# Display build information
+#
+echo ""
+echo "The 'secret.yaml' and 'hazelcast.yaml' files are modified. The originals are saved in the following directories."
+echo ""
+echo "   $APP_DIR/hazelcast-operator/hazelcast-operator/original/"
+echo "   $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator/original/"
+echo ""
+echo "Build complete"
+echo ""

@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+. $SCRIPT_DIR/.addonenv.sh
+
+EXECUTABLE="`basename $0`"
+
+if [ "$HELP" == "true" ]; then
+cat <<EOF
+
+NAME
+   $EXECUTABLE - Delete all resrouces
+
+SYNOPSIS
+   $EXECUTABLE [-oss] [-all] [-?]
+
+DESCRIPTION
+   Deletes all but persistent claim resources. To delete persistent claims and 'local-storage'
+   specify the '-all' option.
+
+EOF
+exit
+fi
+
+# Delete PadoGrid
+echo "Deleting PadoGrid..."
+oc delete all -l app=padogrid
+
+# Delete Hazelcast
+if [ "$OSS" == "true" ]; then
+   echo "Deleting OSS resources..."
+else
+   echo "Deleting Enterprise resources..."
+fi
+if [ "$OSS" == "true" ]; then
+   pushd $APP_DIR/hazelcast-operator/hazelcast-operator > /dev/null
+   oc delete -f hazelcast.yaml
+   oc delete -f operator.yaml
+   oc delete -f hazelcastcluster.crd.yaml
+   oc delete -f hazelcast-rbac.yaml
+   oc delete -f operator-rbac.yaml
+   popd > /dev/null
+else
+   pushd $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator > /dev/null
+   oc delete -f hazelcast.yaml
+   oc delete -f secret.yaml
+   oc delete -f operator-rhel.yaml
+   oc delete -f hazelcastcluster.crd.yaml
+   oc delete -f hazelcast-rbac.yaml
+   oc delete -f operator-rbac.yaml
+   popd > /dev/null
+fi
+
+# Delete the rest if ALL specified
+if [ "$ALL" == "true" ]; then
+   echo "Deleting pvc, pv, storage..."
+   oc delete pvc padogrid-pvc
+   if [ "$OSS" == "true" ]; then
+      oc delete pvc mancenter-storage-hz-hazelcast-mancenter-0
+   else
+      oc delete pvc mancenter-storage-hz-hazelcast-enterprise-mancenter-0
+   fi
+   oc delete -f $APP_DIR/padogrid/pv-hostPath.yaml
+fi

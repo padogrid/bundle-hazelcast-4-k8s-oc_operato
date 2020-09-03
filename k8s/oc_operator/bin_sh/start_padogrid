@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+. $SCRIPT_DIR/.addonenv.sh
+
+EXECUTABLE="`basename $0`"
+
+if [ "$1" == "-?" ]; then
+cat <<EOF
+
+NAME
+   $EXECUTABLE - Start padogrid pod
+
+SYNOPSIS
+   $EXECUTABLE [local-storage] [-?]
+
+DESCRIPTION
+   Launches a PadoGrid pod with the name 'padogrid'. The 'local-storage' option should be specified only if
+   you are connected to your local CRC environment.
+
+OPTIONS
+   local-storage
+             If specified then the local-storage is used as the Storage Class Name for the 'paodgrid-pvc' Persistent
+             Volume Claim. If you are connected to CRC, then must specify this option. The 'local-storeage' persistent
+             volumes must also be created beforehand as described in the bundle instructions.
+
+SEE ALSO
+   padogrid/padogrid.yaml
+
+EOF
+exit
+fi
+
+STORAGE_CLASS_NAME="$1"
+oc process -f $APP_DIR/padogrid/padogrid.yaml -o yaml -p=STORAGE_CLASS_NAME=$STORAGE_CLASS_NAME | oc create -f -
