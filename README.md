@@ -133,16 +133,16 @@ cd_k8s oc_operator; cd bin_sh
 Wait till all three (3) Hazelcast services become available.
 
 ```bash
-oc get svc -w
+oc get svc
 ```
 
 Output:
 
 ```console
 NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                        AGE
-hazelcast-operator-metrics   ClusterIP      172.30.34.149   <none>        8383/TCP,8686/TCP              16s
-hz-hazelcast                 ClusterIP      None            <none>        5701/TCP                       6s
-hz-hazelcast-mancenter       LoadBalancer   172.30.16.62    <pending>     8080:32662/TCP,443:32400/TCP   6s
+hazelcast-operator-metrics   ClusterIP      172.30.34.149   <none>        8383/TCP,8686/TCP              16m
+hz-hazelcast                 ClusterIP      None            <none>        5701/TCP                       16m
+hz-hazelcast-mancenter       LoadBalancer   172.30.16.62    <pending>     8080:32662/TCP,443:32400/TCP   16m
 ```
 
 Run `oc expose svc` to expose services.
@@ -161,12 +161,13 @@ oc get route
 Output:
 
 ```console
-NAME                                HOST/PORT                                                                                   PATH   SERVICES                            PORT     TERMINATION   WILDCARD
-hz-hazelcast-enterprise             hz-hazelcast-enterprise-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                    hz-hazelcast-enterprise             hzport                 None
-hz-hazelcast-enterprise-mancenter   hz-hazelcast-enterprise-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com          hz-hazelcast-enterprise-mancenter   http                   None
+NAME                         HOST/PORT                                                                            PATH   SERVICES                     PORT           TERMINATION   WILDCARD
+hazelcast-operator-metrics   hazelcast-operator-metrics-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com          hazelcast-operator-metrics   http-metrics                 None
+hz-hazelcast                 hz-hazelcast-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                        hz-hazelcast                 hzport                       None
+hz-hazelcast-mancenter       hz-hazelcast-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com              hz-hazelcast-mancenter       http                         None
 ```
 
-Management Center URL: http://hz-hazelcast-enterprise-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com
+Management Center URL: http://hz-hazelcast-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com
 
 ### Hazelcast Enterprise
 
@@ -180,23 +181,23 @@ cd_k8s oc_operator; cd bin_sh
 Wait till all three (3) Hazelcast services become available.
 
 ```bash
-oc get svc -w
+oc get svc
 ```
 
 Output:
 
 ```console
-NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                        AGE
-hazelcast-operator-metrics   ClusterIP      172.30.34.149   <none>        8383/TCP,8686/TCP              16s
-hz-hazelcast                 ClusterIP      None            <none>        5701/TCP                       6s
-hz-hazelcast-mancenter       LoadBalancer   172.30.16.62    <pending>     8080:32662/TCP,443:32400/TCP   6s
+NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                        AGE
+hazelcast-enterprise-operator-metrics   ClusterIP      172.30.143.238   <none>        8383/TCP,8686/TCP              47s
+hz-hazelcast-enterprise                 ClusterIP      None             <none>        5701/TCP                       37s
+hz-hazelcast-enterprise-mancenter       LoadBalancer   172.30.59.107    <pending>     8080:30756/TCP,443:32203/TCP   37s
 ```
 
 Run `oc expose svc` to expose services.
 
 ```bash
-oc expose svc hz-hazelcast
-oc expose svc hz-hazelcast-mancenter
+oc expose svc hz-hazelcast-enterprise
+oc expose svc hz-hazelcast-enterprise-mancenter
 ```
 
 Run `oc get route` to get the Management Center URL.
@@ -208,12 +209,13 @@ oc get route
 Output:
 
 ```console
-NAME                     HOST/PORT                                                                        PATH   SERVICES                 PORT     TERMINATION   WILDCARD
-hz-hazelcast             hz-hazelcast-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                    hz-hazelcast             hzport                 None
-hz-hazelcast-mancenter   hz-hazelcast-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com          hz-hazelcast-mancenter   http                   None
+NAME                                HOST/PORT                                                                                   PATH   SERVICES                            PORT           TERMINATION   WILDCARD
+hazelcast-operator-metrics          hazelcast-operator-metrics-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                 hazelcast-operator-metrics          http-metrics                 None
+hz-hazelcast-enterprise             hz-hazelcast-enterprise-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                    hz-hazelcast-enterprise             hzport                       None
+hz-hazelcast-enterprise-mancenter   hz-hazelcast-enterprise-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com          hz-hazelcast-enterprise-mancenter   http                         None
 ```
 
-Management Center URL: http://hz-hazelcast-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com
+Management Center URL: http://hz-hazelcast-enterprise-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com
 
 ## 6. Launch PadoGrid
 
