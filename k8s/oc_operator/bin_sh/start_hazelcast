@@ -24,7 +24,7 @@ DEFAULT:
    ./$EXECUTABLE
 
 SEE ALSO
-   etc/hazelcast, etc/hazelcast-enterprise, etc/padogrid
+   etc/hazelcast/, etc/hazelcast-enterprise/, etc/padogrid/
 
 EOF
 exit

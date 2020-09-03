@@ -35,6 +35,8 @@ if [ "$OSS" == "true" ]; then
    oc delete -f hazelcast-rbac.yaml
    oc delete -f operator-rbac.yaml
    popd > /dev/null
+   oc delete route hz-hazelcast
+   oc delete route hz-hazelcast-mancenter
 else
    pushd $APP_DIR/hazelcast-operator/hazelcast-enterprise-operator > /dev/null
    oc delete -f hazelcast.yaml
@@ -44,6 +46,8 @@ else
    oc delete -f hazelcast-rbac.yaml
    oc delete -f operator-rbac.yaml
    popd > /dev/null
+   oc delete route hz-hazelcast-enterprise
+   oc delete route hz-hazelcast-enterprise-mancenter
 fi
 
 # Delete the rest if ALL specified

@@ -68,7 +68,7 @@ Let's create the `oc-operator` project. You can create a project with a differen
 oc new-project oc-operator
 ```
 
-## 3. Create Mountable Persistent Volumes in Master Node - CRC Users Only
+## 3. CRC Users: Create Mountable Persistent Volumes in Master Node
 
 **If you are connected to OCP then you can skip this section.**
 
@@ -130,6 +130,44 @@ cd_k8s oc_operator; cd bin_sh
 ./start_hazelcast -oss
 ```
 
+Wait till all three (3) Hazelcast services become available.
+
+```bash
+oc get svc -w
+```
+
+Output:
+
+```console
+NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                        AGE
+hazelcast-operator-metrics   ClusterIP      172.30.34.149   <none>        8383/TCP,8686/TCP              16s
+hz-hazelcast                 ClusterIP      None            <none>        5701/TCP                       6s
+hz-hazelcast-mancenter       LoadBalancer   172.30.16.62    <pending>     8080:32662/TCP,443:32400/TCP   6s
+```
+
+Run `oc expose svc` to expose services.
+
+```bash
+oc expose svc hz-hazelcast
+oc expose svc hz-hazelcase-mancenter
+```
+
+Run `oc get route` to get the Management Center URL.
+
+```bash
+oc get route
+```
+
+Output:
+
+```console
+NAME                                HOST/PORT                                                                                   PATH   SERVICES                            PORT     TERMINATION   WILDCARD
+hz-hazelcast-enterprise             hz-hazelcast-enterprise-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                    hz-hazelcast-enterprise             hzport                 None
+hz-hazelcast-enterprise-mancenter   hz-hazelcast-enterprise-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com          hz-hazelcast-enterprise-mancenter   http                   None
+```
+
+Management Center URL: http://hz-hazelcast-enterprise-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com
+
 ### Hazelcast Enterprise
 
 Launch Hazelcast Enterprise Operator and Hazelcast.
@@ -138,6 +176,44 @@ Launch Hazelcast Enterprise Operator and Hazelcast.
 cd_k8s oc_operator; cd bin_sh
 ./start_hazelcast
 ```
+
+Wait till all three (3) Hazelcast services become available.
+
+```bash
+oc get svc -w
+```
+
+Output:
+
+```console
+NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                        AGE
+hazelcast-operator-metrics   ClusterIP      172.30.34.149   <none>        8383/TCP,8686/TCP              16s
+hz-hazelcast                 ClusterIP      None            <none>        5701/TCP                       6s
+hz-hazelcast-mancenter       LoadBalancer   172.30.16.62    <pending>     8080:32662/TCP,443:32400/TCP   6s
+```
+
+Run `oc expose svc` to expose services.
+
+```bash
+oc expose svc hz-hazelcast
+oc expose svc hz-hazelcast-mancenter
+```
+
+Run `oc get route` to get the Management Center URL.
+
+```bash
+oc get route
+```
+
+Output:
+
+```console
+NAME                     HOST/PORT                                                                        PATH   SERVICES                 PORT     TERMINATION   WILDCARD
+hz-hazelcast             hz-hazelcast-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com                    hz-hazelcast             hzport                 None
+hz-hazelcast-mancenter   hz-hazelcast-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com          hz-hazelcast-mancenter   http                   None
+```
+
+Management Center URL: http://hz-hazelcast-mancenter-oc-operator.apps.7919-681139.cor00005-2.cna.ukcloud.com
 
 ## 6. Launch PadoGrid
 
