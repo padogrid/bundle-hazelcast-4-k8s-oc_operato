@@ -12,7 +12,7 @@ install_bundle -download bundle-hazelcast-4-k8s-oc_operator
 
 ## Use Case
 
-This bundle installs PadoGrid and Hazelcast Kubernetes containers to run on CodeReady Container (CRC) or OpenShift Container Platform (OCP). Once installed, it demonstrates how you can use the PadoGrid pod to ingest mock data into Hazelcast.
+This bundle installs PadoGrid and Hazelcast Kubernetes containers to run on CodeReady Container (CRC) or OpenShift Container Platform (OCP). It demonstrates how you can use the PadoGrid pod to ingest mock data into Hazelcast.
 
 ## Directory Tree View
 
@@ -39,7 +39,7 @@ oc_operator/
 
 ## 1. Build Local Environment
 
-Run `build_app` which initializes your local environment. This script downloads Hazelcast Operator, updates `hazelcast.yaml` and sets the license key in the `hazelcast-enterprise-operator/secret.yaml` file.
+Run `build_app` which initializes your local environment. This script downloads the Hazelcast Operator, updates `hazelcast.yaml` and sets the license key in the `hazelcast-enterprise-operator/secret.yaml` file.
 
 ```bash
 cd_k8s oc_operator; cd bin_sh
@@ -78,7 +78,8 @@ If you are logged onto CRC running on your local PC instead of OpenShift Contain
 # Login to the master node
 ssh -i ~/.crc/machines/crc/id_rsa core@$(crc ip)
 
-# Create hostPath volumes. We only need one but let's create two in case you want to run addional pods.
+# Create hostPath volumes. We only need one but let's create two (2)
+# in case you want to run addional pods.
 sudo mkdir -p /mnt/vol1
 sudo mkdir -p /mnt/vol2
 sudo chmod -R 777 /mnt/vol1
@@ -90,9 +91,9 @@ exit
 
 We will use the volumes created as follows:
 
-| Container     | CDC File                          | Container Path           | Volume Path |
-| ------------- | --------------------------------- | ------------------------ | ----------- |
-| PadoGrid      | postgres/padogrid-persistent.yaml | /opt/padogrid/workspaces | /mnt/vol?   |
+| Container     | CDC File               | Container Path           | Volume Path |
+| ------------- | ---------------------- | ------------------------ | ----------- |
+| PadoGrid      | padogrid/padogrid.yaml | /opt/padogrid/workspaces | /mnt/vol?   |
 
 We can now create the required persistent volumes using **hostPath** by executing the following.
 
