@@ -14,6 +14,13 @@ install_bundle -download bundle-hazelcast-4-k8s-oc_operator
 
 This bundle installs PadoGrid and Hazelcast Kubernetes containers to run on CodeReady Container (CRC) or OpenShift Container Platform (OCP). It demonstrates how you can use the PadoGrid pod to ingest mock data into Hazelcast.
 
+![OC Operator Diagram](/images/oc-operator.jpg)
+
+## Required Software
+
+- PadoGrid 0.9.3-SNAPSHOT+ (09/03/2020)
+- OpenShift Client, **oc**
+
 ## Directory Tree View
 
 ```console
