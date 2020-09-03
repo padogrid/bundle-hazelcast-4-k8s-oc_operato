@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>padogrid.addon</groupId>
-	<artifactId>bundle-hazelcast-4-k8s-cdc_demo</artifactId>
+	<artifactId>bundle-hazelcast-4-k8s-oc_operator</artifactId>
 	<packaging>pom</packaging>
         <name>${project.artifactId}</name>
 	<version>1.0.0</version>
