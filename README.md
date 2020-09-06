@@ -18,7 +18,7 @@ This bundle installs PadoGrid and Hazelcast Kubernetes containers to run on Code
 
 ## Required Software
 
-- PadoGrid 0.9.3-SNAPSHOT+ (09/03/2020)
+- PadoGrid 0.9.3-SNAPSHOT+ (09/06/2020)
 - OpenShift Client, **oc**
 
 ## Directory Tree View
