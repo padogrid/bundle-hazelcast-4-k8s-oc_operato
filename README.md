@@ -14,7 +14,7 @@ install_bundle -download bundle-hazelcast-4-k8s-oc_operator
 
 This bundle installs PadoGrid and Hazelcast Kubernetes containers to run on CodeReady Container (CRC) or OpenShift Container Platform (OCP). It demonstrates how you can use the PadoGrid pod to ingest mock data into Hazelcast.
 
-![OC Operator Diagram](/images/oc-operator.jpg)
+![OC Operator Diagram](images/oc-operator.jpg)
 
 ## Required Software
 
@@ -290,6 +290,23 @@ Read ingested data.
 cd_app perf_test; cd bin_sh
 ./read_cache eligibility
 ./read_cache profile
+```
+
+The elibility and profile maps contain blobs. They are meant for carrying out performance tests with different payload sizes. If you want to ingest non-blobs, then you can ingest the Northwind (nw) data. To do so, you must first build the perf_test app and run the test_group script as shown below.
+
+```bash
+cd_app perf_test; cd bin_sh
+./build_app
+
+# After the build, run test_group
+./test_group -run -prop ../etc/group-factory.properties
+```
+
+Read the nw data:
+
+```bash
+./read_cache nw/customers
+./read_cache nw/orders
 ```
 
 Exit from the PadoGrid pod.
