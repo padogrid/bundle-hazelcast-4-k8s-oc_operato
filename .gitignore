@@ -10,6 +10,10 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+# Eclipse
+.project
+.settings
+
 # PadoGrid
 /.addonenv.sh
 initenv.sh
@@ -22,6 +26,8 @@ docker
 lib
 plugins
 pods
+.workspace
+.cluster
 
 # App specifics
 archive
