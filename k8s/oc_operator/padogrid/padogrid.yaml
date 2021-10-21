@@ -20,7 +20,7 @@ objects:
       requests:
         storage: ${VOLUME_CAPACITY}
     storageClassName: ${STORAGE_CLASS_NAME}
-  
+
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
@@ -48,7 +48,7 @@ objects:
           runAsGroup: 1001
           fsGroup: 1001
         containers:
-        - image: docker.io/padogrid/padogrid:0.9.3-SNAPSHOT-2
+        - image: docker.io/padogrid/padogrid:latest
           name: padogrid
           volumeMounts:
           - mountPath: /opt/padogrid/workspaces

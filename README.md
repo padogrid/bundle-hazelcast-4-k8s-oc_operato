@@ -61,11 +61,11 @@ The conatiner image versions can be changed as needed in the files shown below.
 cd_k8s oc_operator
 ```
 
-| Container                     | File                                        |
-| ----------------------------- | ------------------------------------------- |
-| PadoGrid                      | padogrid/padogrid.yaml                      | 
-| Hazelcast Operator            | hazelcast-operator/operator.yaml            | 
-| Hazelcast Enterprise Operator | hazelcast-enterprise-operator/operator.yaml | 
+| Container                     | File                                                                |
+| ----------------------------- | ------------------------------------------------------------------- |
+| PadoGrid                      | padogrid/padogrid.yaml                                              | 
+| Hazelcast Operator (OSS)      | hazelcast-operator/hazelcast-operator/operator.yaml                 | 
+| Hazelcast Enterprise Operator | hazelcast-operator/hazelcast-enterprise-operator/operator-rhel.yaml | 
 
 ## 2. Create OpenShift Project
 
