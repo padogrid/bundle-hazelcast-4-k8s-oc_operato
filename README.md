@@ -6,6 +6,8 @@ This bundle contains OpenShift operator configuration files for deploying Hazelc
 
 ## Installing Bundle
 
+![PadoGrid](https://github.com/padogrid/padogrid/raw/develop/images/padogrid-3d-16x16.png) [*Driven by PadoGrid*](https://github.com/padogrid)
+
 ```bash
 install_bundle -download bundle-hazelcast-4-k8s-oc_operator
 ```
